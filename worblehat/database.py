@@ -18,5 +18,12 @@ def init_db():
     from .models.Category import Category
     from .models.Item import Item
     from .models.MediaType import MediaType
+    from .models.Location import Location
+    from .models.Bookcase import Bookcase
+    from .models.Language import Language
 
     Base.metadata.create_all(bind=engine)
+
+
+def drop_db():
+    Base.metadata.drop_all(bind=engine)
