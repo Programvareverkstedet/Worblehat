@@ -8,7 +8,7 @@ class Language(Base):
 
     name = Column(String(32), nullable=False)
     shortname = Column(String(2), nullable=False)
-    flag = Column(String(2))
+    flag = Column(String(3))
 
     items = relationship('Item', back_populates='language')
 
