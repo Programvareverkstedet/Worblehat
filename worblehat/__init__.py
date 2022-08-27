@@ -13,6 +13,7 @@ def create_app():
     app.config.from_object('config.Config')
     configure_database(app)
     configure_admin(app)
+    configure_blueprints(app)
 
     @app.route('/')
     def index():
@@ -94,3 +95,9 @@ def configure_admin(app):
     admin.add_view(ModelView(Location, db_session))
     admin.add_view(ModelView(Bookcase, db_session))
 
+def configure_blueprints(app):
+    from worblehat.blueprints.main import main
+    blueprints = [main]
+
+    for bp in blueprints:
+        app.register_blueprint(bp)
