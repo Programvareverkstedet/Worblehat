@@ -1,10 +1,18 @@
 # Worblehat
 
+More information on  <https://www.pvv.ntnu.no/pvv/Bokhyllen/Worblehat/>
+
 ## What?
 Worblehat is a simple library management system written specifically for Programvareverkstedet.
 
 ## Why?
 Programvareverkstedet is a small community with many books and games. A simple web platform is needed to manage the library. We need to know who owns each item, if we can loan it out and where it is.
+
+Programvareverkstedet har en rekke bøker, og en konstant tilstrøm av nye. 
+Teoretisk sett skal disse ryddes og kategoriseres jevntlig, men da dette ikke gjøres ofte nok kan det være et varig strev å finne ut hvor bøker står til enhver tid. 
+Styret har derfor tatt initiativ til å opprette et biblioteksystem for å systematisere bøkene. 
+Prosjektet har fått navn Worblehat etter en bibliotekar i Terry Pratchetts discworld serie. 
+Worblehatt har vært påbegynnt flere ganger opp gjennom historien uten å komme i noen form for funksjonell tilstand enda.
 
 ## How?
 The entire application is written in flask. 
@@ -39,3 +47,57 @@ The resulting web page is rendered on the server by jinja templates in flask.
 
 ### Python packages
 * See [requirements.txt](requirements.txt)
+
+## TODO
+
+### Funksjonalitet
+
+* Høy prioritet:
+  * Bokdatabase med alle PVVs bøker må lages
+  * Bokdatabasebyggingsverktøy for å bygge bokdatabasen (sjekker online ISBN-database for informasjon om boken)
+  * Utlånsmuligheter på PVVs lokaler for eksempel gjennom Dibbler sin strekkodescanner
+* Lav prioritet:
+  * Utlånsmuligheter gjennom nettportal på PVVs nettsider
+  * Søkemuligheter gjennom en nettportal på PVVs nettsider
+* Til diskusjon:
+  * Skal Worblehat kjøre i en annen tty-instans på Dibbler sin Raspberry Pi ELLER skal man skifte mellom Worblehat-mode og Dibbler-mode i samme tty?
+
+### Ellers
+
+* Legge til håndtering av flere ISBN-databaser
+* Legge til batch-prosessering av ISBN-er
+  * For å kunne scanne en hel hylle og så dumpe hele listen av ISBN-er til databasene vi henter fra
+* Lage en database vi kan lagre _våre_ bøker i
+* Finne en måte å håndtere kollisjon dersom vi har flere eksemplarer av samme bok
+  * Klistremerke med eksemplar-nummer ved siden av ISBN, kanskje
+
+## Tilfeldig
+
+En relativt stor online ISBN-database er lokalisert:
+
+* <https://openlibrary.org//>
+  * Eksporterer json-objekter med alle mulig slags rare felter
+* google books databasen er også mulig å benytte.
+* Kanskje ISBNdb.com er mulig å benytte også.
+
+Noen viktige felter til databasen er som følger:
+
+* ISBN (faktisk eller pvv generert)
+* Forfatter
+* Tittel
+* Utgivelsesår
+* Antall sider
+* Sjanger
+* Språk
+* Om boken er utlånbar
+* Bruker som har lånt boken
+* Dato på når boken ble lånt ut
+
+Prosedyre for bokdatabasebygging:
+
+* Systematisk arbeid, hylle for hylle
+* Tre bunker: "ikke scannet", "scannet" og "manuell innlegging"
+* Scanning sjekker live om info kan hentes fra online database(r)
+* Dersom finnes: legg i "scannet", ellers legg i "manuell innlegging"
+* Legg inn manuelle bøker
+* Sett tilbake i hyllen og fortsett til neste
