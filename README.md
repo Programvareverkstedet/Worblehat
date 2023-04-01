@@ -102,3 +102,27 @@ Prosedyre for bokdatabasebygging:
 * Dersom finnes: legg i "scannet", ellers legg i "manuell innlegging"
 * Legg inn manuelle bøker
 * Sett tilbake i hyllen og fortsett til neste
+
+Ny (alternativ) prosedyre:
+
+1. Ta ut alle bøker fra en hylle
+2. Batch-scan isbner; skill så bøker med og uten isbn (scannet- og manuell-bunke)
+3. Få isbntools til å hente metadata for listen med isbner; dersom den ikke finner noe, legg boken i manuell-bunken
+4. Sett alle scannede bøker tilbake og gå gjennom manuell-bunken
+5. Sett alt tilbake og ferdiggjør csv-en eller hva enn for den spesifike hyllen
+
+Programmvare utviklet:
+
+* Enkelt python og JS script for uthenting av data fra database(r) gitt isbn.
+
+## TODO
+
+* Legge til håndtering av flere ISBN-databaser
+  * isbntools ser ut til å finne en del ting som openlibrary ikke finner alene
+* Legge til batch-prosessering av ISBN-er
+  * For å kunne scanne en hel hylle og så dumpe hele listen av ISBN-er til databasene vi henter fra
+* Lage en database vi kan lagre _våre_ bøker i
+* Finne en måte å håndtere kollisjon dersom vi har flere eksemplarer av samme bok
+  * Klistremerke med eksemplar-nummer ved siden av ISBN, kanskje
+* Se om <https://pypi.org/project/isbntools/> er et nyttig verktøy for arbeidet vårt
+  * Ser nyttig ut
