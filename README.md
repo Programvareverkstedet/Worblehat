@@ -70,6 +70,7 @@ The resulting web page is rendered on the server by jinja templates in flask.
 * Lage en database vi kan lagre _våre_ bøker i
 * Finne en måte å håndtere kollisjon dersom vi har flere eksemplarer av samme bok
   * Klistremerke med eksemplar-nummer ved siden av ISBN, kanskje
+* Se om <https://pypi.org/project/isbntools/> er et nyttig verktøy for arbeidet vårt
 
 ## Tilfeldig
 
