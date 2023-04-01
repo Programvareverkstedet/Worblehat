@@ -57,7 +57,7 @@ def get_from_api(isbn) -> dict:
         return book_data
         
     except:
-        return f"Error processing data for {isbn}"
+        return f"Error processing data for: {isbn}"
 
 def push_to_database(book_info, db_file = "book_info.dat") -> None:
     print(f"Pushing to database: Writing to file {db_file}")  # TODO: actually connect to our database and push there
