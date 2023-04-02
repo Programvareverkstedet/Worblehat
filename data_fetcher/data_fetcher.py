@@ -25,7 +25,7 @@ def get_isbn():
     else:
         return None
 
-def get_from_api(isbn) -> dict:
+def get_from_api(isbn):
     try:
         json_input = json.loads(requests.get("https://openlibrary.org/isbn/"+str(isbn)+".json").text)
     except:
@@ -49,8 +49,8 @@ def get_from_api(isbn) -> dict:
                     "isbn": isbn,
                     "authors": authors,
                     "title": title,
-                    "publishDate": publish_date,
-                    "numberOfPages": number_of_pages,
+                    "publish_date": publish_date,
+                    "number_of_pages": number_of_pages,
                     "languages": languages,
                     }
         
