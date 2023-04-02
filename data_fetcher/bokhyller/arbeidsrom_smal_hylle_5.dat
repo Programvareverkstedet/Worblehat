@@ -1,32 +1,32 @@
-{"isbn": "9780486809038", "authors": ["Emily Riehl"], "title": "Category Theory in Context", "publishDate": "2016", "numberOfPages": 272, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780486458731", "authors": ["Girolamo Cardano"], "title": "The Rules of Algebra", "publishDate": "April 19, 2007", "numberOfPages": 304, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780486462394", "authors": ["Andrew H. Wallace"], "title": "Algebraic Topology", "publishDate": "September 26, 2007", "numberOfPages": 288, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780582447585", "authors": ["S. Barnett"], "title": "Mathematical formulae for engineering and science students", "publishDate": "1986", "numberOfPages": 77, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780486466668", "authors": ["Samuel, Pierre"], "title": "Algebraic theory of numbers", "publishDate": "2008", "numberOfPages": null, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780486462431", "authors": ["Herbert Busemann"], "title": "Convex Surfaces", "publishDate": "February 15, 2008", "numberOfPages": 208, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780486449685", "authors": ["Nathan Altshiller-Court"], "title": "Mathematics in fun and in earnest", "publishDate": "2006", "numberOfPages": null, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780486417103", "authors": ["Abraham M. Glicksman"], "title": "An introduction to linear programming and the theory of games", "publishDate": "2001", "numberOfPages": 131, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780130892393", "authors": ["Nakhle H. Asmar"], "title": "Applied Complex Analysis with Partial Differential Equations", "publishDate": "April 23, 2002", "numberOfPages": 883, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9781292024967", "authors": ["John B. Fraleigh"], "title": "First Course in Abstract Algebra", "publishDate": "2013", "numberOfPages": 464, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780471728979", "authors": ["Erwin Kreyszig"], "title": "Advanced engineering mathematics", "publishDate": "1999", "numberOfPages": 1094, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780199208258", "authors": ["D. W. Jordan"], "title": "Nonlinear ordinary differential equations", "publishDate": "2007", "numberOfPages": 531, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780750304009", "authors": ["Paul S. Addison"], "title": "Fractals and chaos", "publishDate": "1997", "numberOfPages": 256, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9781620402788", "authors": ["Simon Singh"], "title": "Simpsons and Their Mathematical Secrets", "publishDate": "2014", "numberOfPages": 272, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9781846683459", "authors": ["Ian Stewart"], "title": "Professor Stewart's cabinet of mathematical curiosities", "publishDate": "2010", "numberOfPages": 310, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9789810245344", "authors": ["Masao Mukaidono"], "title": "Fuzzy logic for beginners", "publishDate": "2001", "numberOfPages": 105, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9781429224048", "authors": ["Jerrold E. Marsden"], "title": "Vector calculus", "publishDate": "2012", "numberOfPages": 545, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780122407611", "authors": ["Epstein, Richard A."], "title": "The theory of gambling and statistical logic", "publishDate": "1995", "numberOfPages": 450, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780321748232", "authors": ["Raymond H. Myers", "Sharon L. Myers", "Ronald E. Walpole", "Keying E. Ye"], "title": "Probability and Statistics for Engineers and Scientists", "publishDate": "2011", "numberOfPages": 816, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9780387954752", "authors": ["Peter Dalgaard"], "title": "Introductory Statistics with R", "publishDate": "January 9, 2004", "numberOfPages": 282, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-{"isbn": "9781568814421", "authors": ["Jonathan M. Borwein"], "title": "Mathematics by experiment", "publishDate": "2008", "numberOfPages": null, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
-"Error fetching data for: 9781847762399"
-"Error fetching data for: 9781847762399"
-"Error fetching data for: 9781787267763"
-"Error fetching data for: 9781787267770"
-"Error fetching data for: 9788251915953"
-"Error fetching data for: 9788251915953"
-"Error fetching data for: 9788251915953"
-"Error fetching data for: 9788251915953"
-"Error fetching data for: 9788241902116"
-"Error fetching data for: 9788278220054"
-"Error processing data for: 9781568811307"
+{"isbn": "9780486809038", "authors": ["Emily Riehl"], "title": "Category Theory in Context", "publish_date": "2016", "number_of_pages": 272, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9781568811307", "authors": ["Elwyn R. Berlekamp", "John H. Conway", "Richard K. Guy"], "title": "Winning Ways For Your Mathematical Plays, Volume 3", "publish_date": "2001", "number_of_pages": null, "languages": ["en"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780486458731", "authors": ["Girolamo Cardano"], "title": "The Rules of Algebra", "publish_date": "April 19, 2007", "number_of_pages": 304, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780486462394", "authors": ["Andrew H. Wallace"], "title": "Algebraic Topology", "publish_date": "September 26, 2007", "number_of_pages": 288, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780582447585", "authors": ["S. Barnett"], "title": "Mathematical formulae for engineering and science students", "publish_date": "1986", "number_of_pages": 77, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780486466668", "authors": ["Samuel, Pierre"], "title": "Algebraic theory of numbers", "publish_date": "2008", "number_of_pages": null, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780486462431", "authors": ["Herbert Busemann"], "title": "Convex Surfaces", "publish_date": "February 15, 2008", "number_of_pages": 208, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780486449685", "authors": ["Nathan Altshiller-Court"], "title": "Mathematics in fun and in earnest", "publish_date": "2006", "number_of_pages": null, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780486417103", "authors": ["Abraham M. Glicksman"], "title": "An introduction to linear programming and the theory of games", "publish_date": "2001", "number_of_pages": 131, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780130892393", "authors": ["Nakhle H. Asmar"], "title": "Applied Complex Analysis with Partial Differential Equations", "publish_date": "April 23, 2002", "number_of_pages": 883, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9781292024967", "authors": ["John B. Fraleigh"], "title": "First Course in Abstract Algebra", "publish_date": "2013", "number_of_pages": 464, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780471728979", "authors": ["Erwin Kreyszig"], "title": "Advanced engineering mathematics", "publish_date": "1999", "number_of_pages": 1094, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9781847762399", "note": "calc 1", "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9781847762399", "note": "calc 1 again", "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9781787267763", "authors": [""], "title": "Calculus 1 - Selected Chapters From: Calculus: A Complete Course Ninth Edition, Robert A. Adams And Christopher Essex", "publish_date": "", "number_of_pages": null, "languages": ["en"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9781787267770", "authors": ["Robert Alexander Adams"], "title": "Calculus 2", "publish_date": "2018", "number_of_pages": null, "languages": ["en"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780199208258", "authors": ["D. W. Jordan"], "title": "Nonlinear ordinary differential equations", "publish_date": "2007", "number_of_pages": 531, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9788251915953", "authors": [""], "title": "Tabeller og formler i statistikk", "publish_date": "2017", "number_of_pages": null, "languages": ["no"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9788251915953", "authors": [""], "title": "Tabeller og formler i statistikk", "publish_date": "2017", "number_of_pages": null, "languages": ["no"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9788251915953", "authors": [""], "title": "Tabeller og formler i statistikk", "publish_date": "2017", "number_of_pages": null, "languages": ["no"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9788251915953", "authors": [""], "title": "Tabeller og formler i statistikk", "publish_date": "2017", "number_of_pages": null, "languages": ["no"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780750304009", "authors": ["Paul S. Addison"], "title": "Fractals and chaos", "publish_date": "1997", "number_of_pages": 256, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9788241902116", "authors": ["Audun Holme"], "title": "Innf\u00f8ring i geometri - fra Euklid til Mandelbrot", "publish_date": "1996", "number_of_pages": null, "languages": ["no"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9781620402788", "authors": ["Simon Singh"], "title": "Simpsons and Their Mathematical Secrets", "publish_date": "2014", "number_of_pages": 272, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9781846683459", "authors": ["Ian Stewart"], "title": "Professor Stewart's cabinet of mathematical curiosities", "publish_date": "2010", "number_of_pages": 310, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9789810245344", "authors": ["Masao Mukaidono"], "title": "Fuzzy logic for beginners", "publish_date": "2001", "number_of_pages": 105, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9781429224048", "authors": ["Jerrold E. Marsden"], "title": "Vector calculus", "publish_date": "2012", "number_of_pages": 545, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780122407611", "authors": ["Epstein, Richard A."], "title": "The theory of gambling and statistical logic", "publish_date": "1995", "number_of_pages": 450, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9788278220054", "authors": ["Karl Rottmann"], "title": "Matematisk formelsamling", "publish_date": "1995", "number_of_pages": null, "languages": ["no"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780321748232", "authors": ["Sharon L. Myers", "Raymond H. Myers", "Keying E. Ye", "Ronald E. Walpole"], "title": "Probability and Statistics for Engineers and Scientists", "publish_date": "2011", "number_of_pages": 816, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9780387954752", "authors": ["Peter Dalgaard"], "title": "Introductory Statistics with R", "publish_date": "January 9, 2004", "number_of_pages": 282, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
+{"isbn": "9781568814421", "authors": ["Jonathan M. Borwein"], "title": "Mathematics by experiment", "publish_date": "2008", "number_of_pages": null, "languages": ["English"], "bookcase": "arbeidsrom_smal", "shelf": "5"}
