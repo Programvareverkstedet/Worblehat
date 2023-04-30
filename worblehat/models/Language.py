@@ -1,16 +1,23 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
-from sqlalchemy.orm import relationship
-from worblehat.database import Base
+# from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
+# from sqlalchemy.orm import relationship
 
-class Language(Base):
-    __tablename__ = 'languages'
-    id = Column(Integer, primary_key=True)
+from sqlalchemy import String
+from sqlalchemy.orm import (
+    Mapped,
+    mapped_column,
+)
 
-    name = Column(String(32), nullable=False)
-    shortname = Column(String(2), nullable=False)
-    flag = Column(String(3))
 
-    items = relationship('Item', back_populates='language')
+from .Base import Base
+from .mixins import UidMixin, UniqueNameMixin
 
-    def __repr__(self):
-        return '<Language %r>' % self.name
+class Language(Base, UidMixin, UniqueNameMixin):
+    iso639_1_code: Mapped[str] = mapped_column(String(2))
+
+    def __init__(
+        self,
+        name: str,
+        iso639_1_code: str,
+    ):
+        self.name = name
+        self.iso639_1_code = iso639_1_code
