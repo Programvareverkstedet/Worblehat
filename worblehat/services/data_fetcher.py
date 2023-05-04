@@ -30,21 +30,21 @@ def get_from_api(isbn):
         json_input = json.loads(requests.get("https://openlibrary.org/isbn/"+str(isbn)+".json").text)
     except:
         return f"Error fetching data for: {isbn}"  # TODO: add more databases for fetching info from
-    
+
     try:
         authors = json_input.get("authors")
         for i in range(len(authors)):
             authors[i] = json.loads(requests.get("https://openlibrary.org"+str(authors[i].get("key"))+".json").text).get("name") #henter navn fra api
-        
+
         authors = list(set(authors))
         title = json_input.get("title")
         publish_date = json_input.get("publish_date")
         number_of_pages = json_input.get("number_of_pages")
         languages = json_input.get("languages")
-        
+
         for i in range(len(languages)):
             languages[i] = json.loads(requests.get("https://openlibrary.org"+str(languages[i].get("key"))+".json").text).get("name")
-        
+
         book_data = {
                     "isbn": isbn,
                     "authors": authors,
@@ -53,9 +53,9 @@ def get_from_api(isbn):
                     "number_of_pages": number_of_pages,
                     "languages": languages,
                     }
-        
+
         return book_data
-        
+
     except:
         return f"Error processing data for: {isbn}"
 
@@ -73,7 +73,7 @@ def validate_book_info_with_user(book_info) -> bool:
 
     Input:
     * book_info: dict holding fields of book information
-    
+
     Returns:
     * bool: True if book is now valid, false if something went wrong
     """
@@ -99,13 +99,13 @@ def validate_book_info_with_user(book_info) -> bool:
                 is_corrected = True
             else:
                 print("No valid option supplied.")
-        
+
         return True  # Book has been corrected and is (presumably) valid
     elif answer == "y":
         return True  # Book information is valid
     else:
         return False  # Something went wrong
-    
+
 def add_book_location(book_info) -> None:
     """
     Prompts the user for which bookcase and shelf the book came from and adds them to the book_info dictionary.
