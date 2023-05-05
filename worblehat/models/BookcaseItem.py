@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy import (
   Integer,
+  SmallInteger,
   String,
   ForeignKey,
 )
@@ -23,23 +24,22 @@ from .xref_tables import (
 )
 if TYPE_CHECKING:
     from .Author import Author
-    from .BookcaseLocation import BookcaseLocation
+    from .BookcaseShelf import BookcaseShelf
     from .Category import Category
     from .Language import Language
     from .MediaType import MediaType
 
 class BookcaseItem(Base, UidMixin, UniqueNameMixin):
-    # NOTE: This is kept non-unique in case we have
-    #       multiple copies of the same book.
-    isbn: Mapped[int | None] = mapped_column(String, index=True)
+    isbn: Mapped[int] = mapped_column(String, unique=True, index=True)
     owner: Mapped[str] = mapped_column(String, default='PVV')
+    amount: Mapped[int] = mapped_column(SmallInteger, default=1)
 
     fk_media_type_uid: Mapped[int] = mapped_column(Integer, ForeignKey('MediaType.uid'))
-    fk_bookcase_location_uid: Mapped[int | None] = mapped_column(Integer, ForeignKey('BookcaseLocation.uid'))
+    fk_bookcase_shelf_uid: Mapped[int | None] = mapped_column(Integer, ForeignKey('BookcaseShelf.uid'))
     fk_language_uid: Mapped[int] = mapped_column(Integer, ForeignKey('Language.uid'))
 
     media_type: Mapped[MediaType] = relationship(back_populates='items')
-    location: Mapped[BookcaseLocation] = relationship(back_populates='items')
+    shelf: Mapped[BookcaseShelf] = relationship(back_populates='items')
     language: Mapped[Language] = relationship()
 
     categories: Mapped[set[Category]] = relationship(

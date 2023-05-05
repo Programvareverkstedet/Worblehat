@@ -14,12 +14,12 @@ from .mixins import (
     UniqueNameMixin,
 )
 if TYPE_CHECKING:
-    from .BookcaseLocation import BookcaseLocation
+    from .BookcaseShelf import BookcaseShelf
 
 class Bookcase(Base, UidMixin, UniqueNameMixin):
     description: Mapped[str | None] = mapped_column(Text)
 
-    locations: Mapped[list[BookcaseLocation]] = relationship(back_populates='bookcase')
+    shelfs: Mapped[list[BookcaseShelf]] = relationship(back_populates='bookcase')
 
     def __init__(
         self,

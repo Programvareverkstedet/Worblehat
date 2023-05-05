@@ -12,7 +12,7 @@ from .Base import Base
 from .mixins import UidMixin, UniqueNameMixin
 
 class Language(Base, UidMixin, UniqueNameMixin):
-    iso639_1_code: Mapped[str] = mapped_column(String(2))
+    iso639_1_code: Mapped[str] = mapped_column(String(2), unique=True, index=True)
 
     def __init__(
         self,

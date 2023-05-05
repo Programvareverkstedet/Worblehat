@@ -32,7 +32,7 @@ def configure_admin(app):
     admin.add_view(ModelView(Author, db.session))
     admin.add_view(ModelView(Bookcase, db.session))
     admin.add_view(ModelView(BookcaseItem, db.session))
-    admin.add_view(ModelView(BookcaseLocation, db.session))
+    admin.add_view(ModelView(BookcaseShelf, db.session))
     admin.add_view(ModelView(Category, db.session))
     admin.add_view(ModelView(Language, db.session))
     admin.add_view(ModelView(MediaType, db.session))
