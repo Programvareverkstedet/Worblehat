@@ -2,6 +2,8 @@ from .Author import Author
 from .Base import Base
 from .Bookcase import Bookcase
 from .BookcaseItem import BookcaseItem
+from .BookcaseItemBorrowing import BookcaseItemBorrowing
+from .BookcaseItemBorrowingQueue import BookcaseItemBorrowingQueue
 from .BookcaseShelf import BookcaseShelf
 from .Category import Category
 from .Language import Language
