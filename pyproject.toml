@@ -14,15 +14,32 @@ flask-admin = "^1.6.1"
 flask-sqlalchemy = "^3.0.3"
 isbnlib = "^3.10.14"
 python = "^3.11"
-python-dotenv = "^1.0.0"
 sqlalchemy = "^2.0.8"
+psycopg2-binary = "^2.9.6"
 
 [tool.poetry.group.dev.dependencies]
 werkzeug = "^2.3.3"
+poethepoet = "^0.20.0"
 
 [tool.poetry.scripts]
 cli = "worblehat.cli.main:main"
 dev = "worblehat.flaskapp.wsgi_dev:main"
+
+[tool.poe.tasks]
+clean = """
+    rm -rf
+       ./**/__pycache__
+       ./**/worblehat.sqlite
+"""
+
+# Migration related
+genmigration = "alembic revision --autogenerate -m"
+migrate = "alembic upgrade head"
+downmigrate = "alembic downgrade -1"
+# Be careful with cleanmigrations. If you run migrate a database and then
+# delete the migration file with this, there will be no easy way of downgrading
+cleanmigrations = "git clean -f worblehat/models/migrations/versions"
+
 
 [build-system]
 requires = ["poetry-core"]
