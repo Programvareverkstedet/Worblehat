@@ -13,7 +13,7 @@ flask = "^2.2.2"
 flask-admin = "^1.6.1"
 flask-sqlalchemy = "^3.0.3"
 isbnlib = "^3.10.14"
-python = "^3.10"
+python = "^3.11"
 python-dotenv = "^1.0.0"
 sqlalchemy = "^2.0.8"
 
@@ -22,7 +22,7 @@ werkzeug = "^2.3.3"
 
 [tool.poetry.scripts]
 cli = "worblehat.cli.main:main"
-dev = "worblehat.wsgi_dev:main"
+dev = "worblehat.flaskapp.wsgi_dev:main"
 
 [build-system]
 requires = ["poetry-core"]

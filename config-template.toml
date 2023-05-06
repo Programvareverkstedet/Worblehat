@@ -1,0 +1,20 @@
+# See https://flask.palletsprojects.com/en/2.3.x/config/
+[flask]
+TESTING = true
+DEBUG = true
+FLASK_ENV = 'development'
+SECRET_KEY = 'change-me'
+
+[database]
+# One of (sqlite, postgres)
+type = 'sqlite'
+
+[database.sqlite]
+path = './worblehat.sqlite'
+
+[database.postgres]
+host = 'localhost'
+port = 5432
+username = 'worblehat'
+password = 'change-me'
+name = 'worblehat'

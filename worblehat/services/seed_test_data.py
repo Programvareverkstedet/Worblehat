@@ -1,16 +1,18 @@
 import csv
 from pathlib import Path
 
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import Session
 
-from .models import (
+from worblehat.flaskapp.database import db
+
+from ..models import (
     Bookcase,
     BookcaseShelf,
     Language,
     MediaType,
 )
 
-def seed_data(db: SQLAlchemy):
+def seed_data(sql_session: Session = db.session):
     media_types = [
         MediaType(name='Book', description='A physical book'),
         MediaType(name='Comic', description='A comic book'),
@@ -115,13 +117,13 @@ def seed_data(db: SQLAlchemy):
         BookcaseShelf(row=0, column=4, bookcase=bookcases[4], description="Religion"),
     ]
 
-    with open(Path(__file__).parent.parent / 'data' / 'iso639_1.csv') as f:
+    with open(Path(__file__).parent.parent.parent / 'data' / 'iso639_1.csv') as f:
       reader = csv.reader(f)
       languages = [Language(name, code) for (code, name) in reader]
 
-    db.session.add_all(media_types)
-    db.session.add_all(bookcases)
-    db.session.add_all(shelfs)
-    db.session.add_all(languages)
-    db.session.commit()
+    sql_session.add_all(media_types)
+    sql_session.add_all(bookcases)
+    sql_session.add_all(shelfs)
+    sql_session.add_all(languages)
+    sql_session.commit()
     print("Added test media types, bookcases and shelfs.")

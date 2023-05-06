@@ -8,17 +8,16 @@ from sqlalchemy import (
 from sqlalchemy.orm import (
    Session,
 )
-
 from worblehat.services.bookcase_item import (
     create_bookcase_item_from_isbn,
     is_valid_isbn,
 )
+from worblehat.services.config import Config
+from worblehat.services.argument_parser import parse_args
 
-from .prompt_utils import *
-
-from worblehat.config import Config
 from worblehat.models import *
 
+from .prompt_utils import *
 from .subclis.bookcase_item import BookcaseItemCli
 from .subclis.bookcase_shelf_selector import select_bookcase_shelf
 
@@ -30,14 +29,15 @@ class WorblehatCli(NumberedCmd):
     sql_session: Session
     sql_session_dirty: bool = False
 
-    def __init__(self):
+    def __init__(self, args: dict[str, any] | None = None):
         super().__init__()
 
         try:
-            engine = create_engine(Config.SQLALCHEMY_DATABASE_URI)
+            engine = create_engine(Config.db_string(), echo=args.get('verbose_sql', False))
             self.sql_session = Session(engine)
-        except Exception:
+        except Exception as err:
             print('Error: could not connect to database.')
+            print(err)
             exit(1)
 
         @event.listens_for(self.sql_session, 'after_flush')
@@ -51,7 +51,7 @@ class WorblehatCli(NumberedCmd):
             self.sql_session_dirty = False
             self.prompt_header = None
 
-        print(f"Debug: Connected to database at '{Config.SQLALCHEMY_DATABASE_URI}'")
+        print(f"Debug: Connected to database at '{Config.db_string()}'")
 
 
     def do_list_bookcases(self, _: str):
@@ -297,7 +297,10 @@ class WorblehatCli(NumberedCmd):
 
 
 def main():
-    tool = WorblehatCli()
+    args = parse_args()
+    Config.load_configuration(args)
+
+    tool = WorblehatCli(args)
     while True:
         try:
             tool.cmdloop()
