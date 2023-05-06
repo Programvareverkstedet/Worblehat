@@ -35,7 +35,7 @@ This project uses [poetry][poetry] as its buildtool as of May 2023.
 ```console
 $ poetry install
 $ poetry run alembic migrate
-$ poetry run scanner
+$ poetry run cli
 $ poetry run dev
 ```
 
@@ -46,11 +46,26 @@ See `worblehat/config.py` for configurable settings.
 ## TODO List
 
 - [ ] High priority:
-  - [ ] Book ingestion tool in order to create the database in a quick manner. It should pull data from online ISBN databases (this is almost done)
-  - [ ] A database with all of PVVs books should be created
-  - [ ] Ability to request book loans for PVV members, e.g. through Dibblers interface.
+  - [X] Data ingestion logic, that will pull data from online databases based on ISBN.
+  - [ ] Cli version of the program (this is currently being worked on).
+  - [ ] Web version of the program
+  - [ ] Setting up a database with all of PVVs books
+    - [ ] Creating database with user and pw
+    - [ ] Model all bookshelfs
+    - [ ] Scan in all books
+  - [ ] Inner workings
+    - [X] Ability to create and update bookcases
+    - [X] Ability to create and update bookcase shelfs
+    - [~] Ability to create and update bookcase items
+    - [ ] Ability to search for books
+    - [ ] Ability to request book loans for PVV members
+    - [ ] Ability to queue book loans for PVV members
+    - [ ] Ability to be notified when books are available
+    - [ ] Ability to be notified when deadlines are due
+    - [ ] Ascii art of monkey
 - [ ] Low priority:
   - [ ] Ability for PVV members to request book loans through the PVV website
   - [ ] Ability for PVV members to search for books through the PVV website
 - [ ] Discussion
   - [ ] Should this project run in a separate tty-instance on Dibblers interface, or should they share the tty with some kind of switching ability?
+  After some discussion with other PVV members, we came up with an idea where we run the programs in separate ttys, and use a set of large mechanical switches connected to a QMK-flashed microcontroller to switch between them.

@@ -21,7 +21,7 @@ sqlalchemy = "^2.0.8"
 werkzeug = "^2.3.3"
 
 [tool.poetry.scripts]
-scanner = "worblehat.tools.scanner:main"
+cli = "worblehat.cli.main:main"
 dev = "worblehat.wsgi_dev:main"
 
 [build-system]

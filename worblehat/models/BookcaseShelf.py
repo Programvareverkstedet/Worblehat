@@ -35,7 +35,7 @@ class BookcaseShelf(Base, UidMixin):
     row: Mapped[int] = mapped_column(SmallInteger)
     column: Mapped[int] = mapped_column(SmallInteger)
 
-    fk_bookcase_uid: Mapped[int] = mapped_column(Integer, ForeignKey('Bookcase.uid'))
+    fk_bookcase_uid: Mapped[int] = mapped_column(ForeignKey('Bookcase.uid'))
 
     bookcase: Mapped[Bookcase] = relationship(back_populates='shelfs')
     items: Mapped[set[BookcaseItem]] = relationship(back_populates='shelf')

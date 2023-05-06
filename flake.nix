@@ -15,7 +15,7 @@
     in {
       default = self.apps.${system}.dev;
       dev = app "${self.packages.${system}.worblehat}/bin/dev";
-      scanner = app "${self.packages.${system}.worblehat}/bin/scanner";
+      cli = app "${self.packages.${system}.worblehat}/bin/cli";
     };
 
     packages.${system} = {
