@@ -9,6 +9,7 @@ from worblehat.cli.prompt_utils import (
     prompt_yes_no,
 )
 from worblehat.models import (
+    Bookcase,
     BookcaseItem,
     Language,
     MediaType,
@@ -18,21 +19,27 @@ from worblehat.services.bookcase_item import (
     is_valid_isbn,
 )
 
+from .bookcase_shelf_selector import select_bookcase_shelf
+
+def _selected_bookcase_item_prompt(bookcase_item: BookcaseItem) -> str:
+    return dedent(f'''
+      Item: {bookcase_item.name}
+        ISBN: {bookcase_item.isbn}
+        Amount: {bookcase_item.amount}
+        Authors: {', '.join(a.name for a in bookcase_item.authors)}
+        Bookcase: {bookcase_item.shelf.bookcase.short_str()}
+        Shelf: {bookcase_item.shelf.short_str()}
+    ''')
+
 class BookcaseItemCli(NumberedCmd):
     def __init__(self, sql_session: Session, bookcase_item: BookcaseItem):
         super().__init__()
         self.sql_session = sql_session
         self.bookcase_item = bookcase_item
 
-    def do_show(self, _: str):
-        print(dedent(f"""
-            Bookcase Item:
-              Name: {self.bookcase_item.name}
-              ISBN: {self.bookcase_item.isbn}
-              Amount: {self.bookcase_item.amount}
-              Shelf: {self.bookcase_item.shelf.column}-{self.bookcase_item.shelf.row}
-              Description: {self.bookcase_item.shelf.description}
-        """))
+    @property
+    def prompt_header(self) -> str:
+        return _selected_bookcase_item_prompt(self.bookcase_item)
 
     def do_update_data(self, _: str):
         item = create_bookcase_item_from_isbn(self.sql_session, self.bookcase_item.isbn)
@@ -41,35 +48,35 @@ class BookcaseItemCli(NumberedCmd):
         self.bookcase_item.authors = item.authors
         self.bookcase_item.language = item.language
 
+
     def do_edit(self, arg: str):
         EditBookcaseCli(self.sql_session, self.bookcase_item, self).cmdloop()
+
 
     def do_loan(self, arg: str):
         print('TODO: implement loan')
 
-    def do_exit(self, _: str):
+
+    def do_done(self, _: str):
         return True
+
 
     funcs = {
         1: {
-            'f': do_show,
-            'doc': 'Show bookcase item',
+            'f': do_loan,
+            'doc': 'Loan',
         },
         2: {
-            'f': do_update_data,
-            'doc': 'Pull updated data from online databases',
-        },
-        3: {
             'f': do_edit,
             'doc': 'Edit',
         },
-        4: {
-            'f': do_loan,
-            'doc': 'Loan bookcase item',
+        3: {
+            'f': do_update_data,
+            'doc': 'Pull updated data from online databases',
         },
-        5: {
-            'f': do_exit,
-            'doc': 'Exit',
+        4: {
+            'f': do_done,
+            'doc': 'Done',
         },
     }
 
@@ -80,6 +87,9 @@ class EditBookcaseCli(NumberedCmd):
         self.bookcase_item = bookcase_item
         self.parent = parent
 
+    @property
+    def prompt_header(self) -> str:
+      return _selected_bookcase_item_prompt(self.bookcase_item)
 
     def do_name(self, _: str):
         while True:
@@ -159,5 +169,51 @@ class EditBookcaseCli(NumberedCmd):
         self.bookcase_item.amount = new_amount
 
 
-    def do_exit():
+    def do_shelf(self, _: str):
+        bookcase_selector = InteractiveItemSelector(
+            Bookcase,
+            self.sql_session,
+        )
+        bookcase_selector.cmdloop()
+        bookcase = bookcase_selector.result
+
+        shelf = select_bookcase_shelf(bookcase, self.sql_session)
+
+        self.bookcase_item.shelf = shelf
+
+
+    def do_done(self, _: str):
         return True
+
+
+    funcs = {
+        1: {
+            'f': do_name,
+            'doc': 'Change name',
+        },
+        2: {
+            'f': do_isbn,
+            'doc': 'Change ISBN',
+        },
+        3: {
+            'f': do_language,
+            'doc': 'Change language',
+        },
+        4: {
+            'f': do_media_type,
+            'doc': 'Change media type',
+        },
+        5: {
+            'f': do_amount,
+            'doc': 'Change amount',
+        },
+        6: {
+            'f': do_shelf,
+            'doc': 'Change shelf',
+        },
+        7: {
+            'f': do_done,
+            'doc': 'Done',
+        },
+    }
+

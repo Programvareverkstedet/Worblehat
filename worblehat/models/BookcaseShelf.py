@@ -51,3 +51,9 @@ class BookcaseShelf(Base, UidMixin):
         self.column = column
         self.bookcase = bookcase
         self.description = description
+
+    def short_str(self) -> str:
+        result = f'{self.column}-{self.row}'
+        if self.description is not None:
+            result += f' [{self.description}]'
+        return result

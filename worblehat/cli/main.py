@@ -8,7 +8,6 @@ from sqlalchemy import (
 from sqlalchemy.orm import (
    Session,
 )
-from worblehat.cli.subclis.bookcase_item import BookcaseItemCli
 
 from worblehat.services.bookcase_item import (
     create_bookcase_item_from_isbn,
@@ -19,6 +18,9 @@ from .prompt_utils import *
 
 from worblehat.config import Config
 from worblehat.models import *
+
+from .subclis.bookcase_item import BookcaseItemCli
+from .subclis.bookcase_shelf_selector import select_bookcase_shelf
 
 # TODO: Category seems to have been forgotten. Maybe relevant interactivity should be added?
 #       However, is there anyone who are going to search by category rather than just look in
@@ -66,14 +68,10 @@ class WorblehatCli(NumberedCmd):
         bookcase_uid = None
         for shelf in bookcase_shelfs:
             if shelf.bookcase.uid != bookcase_uid:
-                print(shelf.bookcase.name)
+                print(shelf.bookcase.short_str())
                 bookcase_uid = shelf.bookcase.uid
 
-            name = f"r{shelf.row}-c{shelf.column}"
-            if shelf.description is not None:
-                 name += f" [{shelf.description}]"
-
-            print(f'  {name} - {sum(i.amount for i in shelf.items)} items')
+            print(f'  {shelf.short_str()} - {sum(i.amount for i in shelf.items)} items')
 
 
     def do_show_bookcase(self, arg: str):
@@ -85,10 +83,7 @@ class WorblehatCli(NumberedCmd):
         bookcase = bookcase_selector.result
 
         for shelf in bookcase.shelfs:
-            name = f"r{shelf.row}-c{shelf.column}"
-            if shelf.description is not None:
-                 name += f" [{shelf.description}]"
-            print(name)
+            print(shelf.short_str())
             for item in shelf.items:
                 print(f'  {item.name} - {item.amount} copies')
 
@@ -127,15 +122,6 @@ class WorblehatCli(NumberedCmd):
         bookcase = bookcase_selector.result
 
         while True:
-            row = input('Row> ')
-            try:
-                row = int(row)
-            except ValueError:
-                print('Error: row must be a number')
-                continue
-            break
-
-        while True:
             column = input('Column> ')
             try:
                 column = int(column)
@@ -144,15 +130,24 @@ class WorblehatCli(NumberedCmd):
                 continue
             break
 
+        while True:
+            row = input('Row> ')
+            try:
+                row = int(row)
+            except ValueError:
+                print('Error: row must be a number')
+                continue
+            break
+
         if self.sql_session.scalars(
             select(BookcaseShelf)
             .where(
               BookcaseShelf.bookcase == bookcase,
-              BookcaseShelf.row == row,
               BookcaseShelf.column == column,
+              BookcaseShelf.row == row,
             )
         ).one_or_none() is not None:
-            print(f'Error: a bookshelf in bookcase {bookcase.name} with position {row}-{column} already exists')
+            print(f'Error: a bookshelf in bookcase {bookcase.name} with position c{column}-r{row} already exists')
             return
 
         description = input('Description> ')
@@ -172,7 +167,7 @@ class WorblehatCli(NumberedCmd):
     def _create_bookcase_item(self, isbn: str):
         bookcase_item = create_bookcase_item_from_isbn(isbn, self.sql_session)
         if bookcase_item is None:
-            print(f'Could not find data about item with isbn {isbn} online.')
+            print(f'Could not find data about item with ISBN {isbn} online.')
             print(f'If you think this is not due to a bug, please add the book to openlibrary.org before continuing.')
             return
         else:
@@ -191,37 +186,7 @@ class WorblehatCli(NumberedCmd):
         bookcase_selector.cmdloop()
         bookcase = bookcase_selector.result
 
-        def __complete_bookshelf_selection(session: Session, cls: type, arg: str):
-            args = arg.split('-')
-            query = select(cls.row, cls.column).where(cls.bookcase == bookcase)
-            try:
-                if arg != '' and len(args) > 0:
-                    query = query.where(cls.row == int(args[0]))
-                if len(args) > 1:
-                    query = query.where(cls.column == int(args[1]))
-            except ValueError:
-                return []
-
-            result = session.execute(query).all()
-            return [f"{r}-{c}" for r,c in result]
-
-        print('Please select the shelf where the item is placed:')
-        bookcase_shelf_selector = InteractiveItemSelector(
-            cls = BookcaseShelf,
-            sql_session = self.sql_session,
-            execute_selection = lambda session, cls, arg: session.scalars(
-                select(cls)
-                .where(
-                  cls.bookcase == bookcase,
-                  cls.column == int(arg.split('-')[1]),
-                  cls.row == int(arg.split('-')[0]),
-                )
-            ).all(),
-            complete_selection = __complete_bookshelf_selection,
-        )
-
-        bookcase_shelf_selector.cmdloop()
-        bookcase_item.shelf = bookcase_shelf_selector.result
+        bookcase_item.shelf = select_bookcase_shelf(bookcase, self.sql_session)
 
         print('Please select the items media type:')
         media_type_selector = InteractiveItemSelector(
@@ -254,14 +219,14 @@ class WorblehatCli(NumberedCmd):
             select(BookcaseItem)
             .where(BookcaseItem.isbn == isbn)
         ).one_or_none()) is not None:
-            print('Found existing BookcaseItem:', existing_item)
+            print(f'\nFound existing item for isbn "{isbn}"')
             BookcaseItemCli(
                 sql_session = self.sql_session,
                 bookcase_item = existing_item,
             ).cmdloop()
             return
 
-        if prompt_yes_no(f"Could not find item with isbn '{isbn}'.\nWould you like to create it?", default=True):
+        if prompt_yes_no(f"Could not find item with ISBN '{isbn}'.\nWould you like to create it?", default=True):
             self._create_bookcase_item(isbn)
 
 

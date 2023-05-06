@@ -29,3 +29,9 @@ class Bookcase(Base, UidMixin, UniqueNameMixin):
         self.name = name
         self.description = description
 
+    def short_str(self) -> str:
+        result = self.name
+        if self.description is not None:
+            result += f' [{self.description}]'
+        return result
+
