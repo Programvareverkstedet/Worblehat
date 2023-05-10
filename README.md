@@ -56,10 +56,10 @@ See `worblehat/config.py` for configurable settings.
   - [ ] Inner workings
     - [X] Ability to create and update bookcases
     - [X] Ability to create and update bookcase shelfs
-    - [~] Ability to create and update bookcase items
+    - [X] Ability to create and update bookcase items
     - [ ] Ability to search for books
-    - [ ] Ability to request book loans for PVV members
-    - [ ] Ability to queue book loans for PVV members
+    - [X] Ability to request book loans for PVV members
+    - [X] Ability to queue book loans for PVV members
     - [ ] Ability to be notified when books are available
     - [ ] Ability to be notified when deadlines are due
     - [ ] Ascii art of monkey
