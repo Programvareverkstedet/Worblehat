@@ -18,6 +18,7 @@ from worblehat.services.argument_parser import parse_args
 from worblehat.models import *
 
 from .prompt_utils import *
+from .subclis.advanced_options import AdvancedOptions
 from .subclis.bookcase_item import BookcaseItemCli
 from .subclis.bookcase_shelf_selector import select_bookcase_shelf
 
@@ -86,82 +87,6 @@ class WorblehatCli(NumberedCmd):
             print(shelf.short_str())
             for item in shelf.items:
                 print(f'  {item.name} - {item.amount} copies')
-
-
-    def do_add_bookcase(self, _: str):
-        while True:
-            name = input('Name of bookcase> ')
-            if name == '':
-                print('Error: name cannot be empty')
-                continue
-
-            if self.sql_session.scalars(
-                select(Bookcase)
-                .where(Bookcase.name == name)
-            ).one_or_none() is not None:
-                print(f'Error: a bookcase with name {name} already exists')
-                continue
-
-            break
-
-        description = input('Description of bookcase> ')
-        if description == '':
-            description = None
-
-        bookcase = Bookcase(name, description)
-        self.sql_session.add(bookcase)
-        self.sql_session.flush()
-
-
-    def do_add_bookcase_shelf(self, arg: str):
-        bookcase_selector = InteractiveItemSelector(
-            cls = Bookcase,
-            sql_session = self.sql_session,
-        )
-        bookcase_selector.cmdloop()
-        bookcase = bookcase_selector.result
-
-        while True:
-            column = input('Column> ')
-            try:
-                column = int(column)
-            except ValueError:
-                print('Error: column must be a number')
-                continue
-            break
-
-        while True:
-            row = input('Row> ')
-            try:
-                row = int(row)
-            except ValueError:
-                print('Error: row must be a number')
-                continue
-            break
-
-        if self.sql_session.scalars(
-            select(BookcaseShelf)
-            .where(
-              BookcaseShelf.bookcase == bookcase,
-              BookcaseShelf.column == column,
-              BookcaseShelf.row == row,
-            )
-        ).one_or_none() is not None:
-            print(f'Error: a bookshelf in bookcase {bookcase.name} with position c{column}-r{row} already exists')
-            return
-
-        description = input('Description> ')
-        if description == '':
-            description = None
-
-        shelf = BookcaseShelf(
-            row,
-            column,
-            bookcase,
-            description,
-        )
-        self.sql_session.add(shelf)
-        self.sql_session.flush()
 
 
     def _create_bookcase_item(self, isbn: str):
@@ -233,6 +158,11 @@ class WorblehatCli(NumberedCmd):
     def do_search(self, _: str):
         print('TODO: implement search')
 
+
+    def do_advanced(self, _: str):
+        AdvancedOptions(self.sql_session).cmdloop()
+
+
     def do_save(self, _:str):
         if not self.sql_session_dirty:
             print('No changes to save.')
@@ -274,20 +204,16 @@ class WorblehatCli(NumberedCmd):
             'doc': 'Show a bookcase, and its items',
         },
         4: {
-            'f': do_add_bookcase,
-            'doc': 'Add a new bookcase',
-        },
-        5: {
-            'f': do_add_bookcase_shelf,
-            'doc': 'Add a new bookshelf',
-        },
-        6: {
             'f': do_save,
             'doc': 'Save changes',
         },
-        7: {
+        5: {
             'f': do_abort,
             'doc': 'Abort changes',
+        },
+        6: {
+            'f': do_advanced,
+            'doc': 'Advanced options',
         },
         9: {
             'f': do_exit,

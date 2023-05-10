@@ -211,7 +211,7 @@ class EditBookcaseCli(NumberedCmd):
             'f': do_shelf,
             'doc': 'Change shelf',
         },
-        7: {
+        9: {
             'f': do_done,
             'doc': 'Done',
         },
