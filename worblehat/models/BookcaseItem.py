@@ -43,8 +43,8 @@ class BookcaseItem(Base, UidMixin, UniqueNameMixin):
     media_type: Mapped[MediaType] = relationship(back_populates='items')
     shelf: Mapped[BookcaseShelf] = relationship(back_populates='items')
     language: Mapped[Language] = relationship()
-    borrowings: Mapped[BookcaseItemBorrowing] = relationship(back_populates='item')
-    borrowing_queue: Mapped[BookcaseItemBorrowingQueue] = relationship(back_populates='item')
+    borrowings: Mapped[set[BookcaseItemBorrowing]] = relationship(back_populates='item')
+    borrowing_queue: Mapped[set[BookcaseItemBorrowingQueue]] = relationship(back_populates='item')
 
     categories: Mapped[set[Category]] = relationship(
         secondary = Item_Category.__table__,

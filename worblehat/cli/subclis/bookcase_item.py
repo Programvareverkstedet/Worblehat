@@ -6,11 +6,14 @@ from sqlalchemy.orm import Session
 from worblehat.cli.prompt_utils import (
     InteractiveItemSelector,
     NumberedCmd,
+    format_date,
     prompt_yes_no,
 )
 from worblehat.models import (
     Bookcase,
     BookcaseItem,
+    BookcaseItemBorrowing,
+    BookcaseItemBorrowingQueue,
     Language,
     MediaType,
 )
@@ -22,13 +25,14 @@ from worblehat.services.bookcase_item import (
 from .bookcase_shelf_selector import select_bookcase_shelf
 
 def _selected_bookcase_item_prompt(bookcase_item: BookcaseItem) -> str:
+    amount_borrowed = len(bookcase_item.borrowings)
     return dedent(f'''
       Item: {bookcase_item.name}
         ISBN: {bookcase_item.isbn}
-        Amount: {bookcase_item.amount}
         Authors: {', '.join(a.name for a in bookcase_item.authors)}
         Bookcase: {bookcase_item.shelf.bookcase.short_str()}
         Shelf: {bookcase_item.shelf.short_str()}
+        Amount: {bookcase_item.amount - amount_borrowed}/{bookcase_item.amount}
     ''')
 
 class BookcaseItemCli(NumberedCmd):
@@ -37,9 +41,11 @@ class BookcaseItemCli(NumberedCmd):
         self.sql_session = sql_session
         self.bookcase_item = bookcase_item
 
+
     @property
     def prompt_header(self) -> str:
         return _selected_bookcase_item_prompt(self.bookcase_item)
+
 
     def do_update_data(self, _: str):
         item = create_bookcase_item_from_isbn(self.sql_session, self.bookcase_item.isbn)
@@ -53,8 +59,115 @@ class BookcaseItemCli(NumberedCmd):
         EditBookcaseCli(self.sql_session, self.bookcase_item, self).cmdloop()
 
 
-    def do_loan(self, arg: str):
-        print('TODO: implement loan')
+    @staticmethod
+    def _prompt_username() -> str:
+        while True:
+            username = input('Username: ')
+            if prompt_yes_no(f'Is {username} correct?', default = True):
+                return username
+
+
+    def _has_active_borrowing(self, username: str) -> bool:
+        return self.sql_session.scalars(
+            select(BookcaseItemBorrowing)
+            .where(
+                BookcaseItemBorrowing.username == username,
+                BookcaseItemBorrowing.item == self.bookcase_item,
+                BookcaseItemBorrowing.delivered != True,
+            )
+        ).one_or_none() is not None
+
+
+    def _has_borrowing_queue_item(self, username: str) -> bool:
+        return self.sql_session.scalars(
+            select(BookcaseItemBorrowingQueue)
+            .where(
+                BookcaseItemBorrowingQueue.username == username,
+                BookcaseItemBorrowingQueue.item == self.bookcase_item,
+            )
+        ).one_or_none() is not None
+
+
+    def do_borrow(self, _: str):
+        active_borrowings = self.sql_session.scalars(
+            select(BookcaseItemBorrowing)
+            .where(
+              BookcaseItemBorrowing.item == self.bookcase_item,
+              BookcaseItemBorrowing.delivered != True,
+            )
+            .order_by(BookcaseItemBorrowing.end_time)
+        ).all()
+
+        if len(active_borrowings) >= self.bookcase_item.amount:
+            print('This item is currently not available')
+            print()
+            print('Active borrowings:')
+
+            for b in active_borrowings:
+                print(f'  {b.username} - Until {format_date(b.end_time)}')
+
+            if len(self.bookcase_item.borrowing_queue) > 0:
+                print('Borrowing queue:')
+                for i, b in enumerate(self.bookcase_item.borrowing_queue):
+                    print(f'  {i + 1} - {b.username}')
+
+            print()
+
+            if not prompt_yes_no('Would you like to enter the borrowing queue?', default = True):
+                return
+            username = self._prompt_username()
+
+            if self._has_active_borrowing(username):
+                print('You already have an active borrowing')
+                return
+
+            if self._has_borrowing_queue_item(username):
+                print('You are already in the borrowing queue')
+                return
+
+            borrowing_queue_item = BookcaseItemBorrowingQueue(username, self.bookcase_item)
+            self.sql_session.add(borrowing_queue_item)
+            print(f'{username} entered the queue!')
+            return
+
+        username = self._prompt_username()
+
+        borrowing_item = BookcaseItemBorrowing(username, self.bookcase_item)
+        self.sql_session.add(borrowing_item)
+        print(f'Successfully delivered the item. Please deliver it back by {format_date(borrowing_item.end_time)}')
+
+    def do_deliver(self, _: str):
+        borrowings = self.sql_session.scalars(
+            select(BookcaseItemBorrowing)
+            .join(BookcaseItem, BookcaseItem.uid == BookcaseItemBorrowing.fk_bookcase_item_uid)
+            .where(BookcaseItem.isbn == self.bookcase_item.isbn)
+            .order_by(BookcaseItemBorrowing.username)
+        ).all()
+
+        if len(borrowings) == 0:
+            print('No one seems to have borrowed this item')
+            return
+
+        print('Borrowers:')
+        for i, b in enumerate(borrowings):
+            print(f'  {i + 1}) {b.username}')
+
+        while True:
+            try:
+                selection = int(input('> '))
+            except ValueError:
+                print('Error: selection must be an integer')
+                continue
+
+            if selection < 1 or selection > len(borrowings):
+                print('Error: selection out of range')
+                continue
+
+            break
+
+        borrowing = borrowings[selection - 1]
+        borrowing.delivered = True
+        print(f'Successfully delivered the item for {borrowing.username}')
 
 
     def do_done(self, _: str):
@@ -63,14 +176,18 @@ class BookcaseItemCli(NumberedCmd):
 
     funcs = {
         1: {
-            'f': do_loan,
-            'doc': 'Loan',
+            'f': do_borrow,
+            'doc': 'Borrow',
         },
         2: {
+            'f': do_deliver,
+            'doc': 'Deliver',
+        },
+        3: {
             'f': do_edit,
             'doc': 'Edit',
         },
-        3: {
+        4: {
             'f': do_update_data,
             'doc': 'Pull updated data from online databases',
         },

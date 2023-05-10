@@ -18,9 +18,11 @@ from worblehat.services.argument_parser import parse_args
 from worblehat.models import *
 
 from .prompt_utils import *
-from .subclis.advanced_options import AdvancedOptions
-from .subclis.bookcase_item import BookcaseItemCli
-from .subclis.bookcase_shelf_selector import select_bookcase_shelf
+from .subclis import (
+    AdvancedOptions,
+    BookcaseItemCli,
+    select_bookcase_shelf,
+)
 
 # TODO: Category seems to have been forgotten. Maybe relevant interactivity should be added?
 #       However, is there anyone who are going to search by category rather than just look in

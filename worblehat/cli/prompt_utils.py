@@ -1,4 +1,5 @@
 from cmd import Cmd
+from datetime import datetime
 from typing import Any, Callable
 
 from sqlalchemy import select
@@ -22,6 +23,10 @@ def prompt_yes_no(question: str, default: bool | None = None) -> bool:
         'n': False,
         '': default,
     }[answer]
+
+
+def format_date(date: datetime):
+    return date.strftime("%a %b %d, %Y")
 
 
 class InteractiveItemSelector(Cmd):

@@ -35,3 +35,4 @@ class BookcaseItemBorrowingQueue(Base, UidMixin):
     ):
         self.username = username
         self.item = item
+        self.entered_queue_time = datetime.now()

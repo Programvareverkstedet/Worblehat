@@ -36,3 +36,5 @@ class BookcaseItemBorrowing(Base, UidMixin):
     ):
         self.username = username
         self.item = item
+        self.start_time = datetime.now()
+        self.end_time = datetime.now() + timedelta(days=30)
