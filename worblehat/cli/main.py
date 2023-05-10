@@ -289,7 +289,7 @@ class WorblehatCli(NumberedCmd):
             'f': do_abort,
             'doc': 'Abort changes',
         },
-        8: {
+        9: {
             'f': do_exit,
             'doc': 'Exit',
         },

@@ -147,17 +147,18 @@ class NumberedCmd(Cmd):
         except (ValueError, KeyError):
             return
 
-        self.funcs[i]['f'](self, arg)
+        return self.funcs[i]['f'](self, arg)
 
 
     def default(self, arg: str):
-        self._default(arg)
+        return self._default(arg)
 
 
-    def _postcmd(self, stop: bool, line: str) -> bool:
-        print()
-        print('-----------------')
-        print()
+    def _postcmd(self, stop: bool, _: str) -> bool:
+        if not stop:
+          print()
+          print('-----------------')
+          print()
         return stop
 
 

@@ -74,7 +74,7 @@ class BookcaseItemCli(NumberedCmd):
             'f': do_update_data,
             'doc': 'Pull updated data from online databases',
         },
-        4: {
+        9: {
             'f': do_done,
             'doc': 'Done',
         },
