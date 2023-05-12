@@ -9,6 +9,7 @@ from .services import (
     arg_parser,
 )
 
+from .deadline_daemon import DeadlineDaemon
 from .cli import WorblehatCli
 from .flaskapp.wsgi_dev import main as flask_dev_main
 from .flaskapp.wsgi_prod import main as flask_prod_main
@@ -47,6 +48,11 @@ def main():
 
     if args.print_config:
         print(f'Configuration:\n{pformat(vars(args))}')
+        exit(0)
+
+    if args.command == 'deadline-daemon':
+        sql_session = _connect_to_database(echo=Config['logging.debug_sql'])
+        DeadlineDaemon(sql_session).run()
         exit(0)
 
     if args.command == 'cli':

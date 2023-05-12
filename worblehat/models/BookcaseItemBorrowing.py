@@ -23,7 +23,7 @@ class BookcaseItemBorrowing(Base, UidMixin):
     username: Mapped[str] = mapped_column(String)
     start_time: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
     end_time: Mapped[datetime] = mapped_column(DateTime, default=datetime.now() + timedelta(days=30))
-    delivered: Mapped[bool] = mapped_column(Boolean, default=False)
+    delivered: Mapped[datetime | None] = mapped_column(DateTime, default=None)
 
     fk_bookcase_item_uid: Mapped[int] = mapped_column(ForeignKey('BookcaseItem.uid'), index=True)
 

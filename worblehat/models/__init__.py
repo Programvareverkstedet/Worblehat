@@ -6,5 +6,6 @@ from .BookcaseItemBorrowing import BookcaseItemBorrowing
 from .BookcaseItemBorrowingQueue import BookcaseItemBorrowingQueue
 from .BookcaseShelf import BookcaseShelf
 from .Category import Category
+from .DeadlineDaemonLastRunDatetime import DeadlineDaemonLastRunDatetime
 from .Language import Language
 from .MediaType import MediaType

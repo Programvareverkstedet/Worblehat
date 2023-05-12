@@ -23,3 +23,15 @@ DEBUG = true
 FLASK_ENV = 'development'
 SECRET_KEY = 'change-me' # path or plain text
 
+[smtp]
+enabled = false
+host = 'smtp.pvv.ntnu.no'
+port = 587
+username = 'worblehat'
+password = '/var/lib/worblehat/smtp-password'  # path or plain text
+from = 'worblehat@pvv.ntnu.no'
+subject_prefix = '[Worblehat]'
+
+[deadline_daemon]
+warn_days_before_borrow_deadline = [ "5", "1" ]
+warn_days_before_expiring_queue_position_deadline = [ "3", "1" ]

@@ -57,11 +57,11 @@ See `worblehat/config.py` for configurable settings.
     - [X] Ability to create and update bookcases
     - [X] Ability to create and update bookcase shelfs
     - [X] Ability to create and update bookcase items
-    - [ ] Ability to search for books
     - [X] Ability to request book loans for PVV members
     - [X] Ability to queue book loans for PVV members
+    - [X] Ability to be notified when deadlines are due
     - [ ] Ability to be notified when books are available
-    - [ ] Ability to be notified when deadlines are due
+    - [ ] Ability to search for books
     - [ ] Ability to print PVV-specific labels for items without a label, or for any other reason needs a new one
     - [ ] Ascii art of monkey
 - [ ] Low priority:

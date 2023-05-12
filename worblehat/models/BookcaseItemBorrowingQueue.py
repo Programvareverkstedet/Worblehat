@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 class BookcaseItemBorrowingQueue(Base, UidMixin):
     username: Mapped[str] = mapped_column(String)
     entered_queue_time = mapped_column(DateTime, default=datetime.now())
-    should_notify_user = mapped_column(Boolean, default=False)
+    expired = mapped_column(Boolean, default=False)
 
     fk_bookcase_item_uid: Mapped[int] = mapped_column(ForeignKey('BookcaseItem.uid'), index=True)
 

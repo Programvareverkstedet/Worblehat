@@ -1,3 +1,4 @@
+from datetime import datetime
 from textwrap import dedent
 from sqlalchemy import select
 
@@ -74,7 +75,7 @@ class BookcaseItemCli(NumberedCmd):
             .where(
                 BookcaseItemBorrowing.username == username,
                 BookcaseItemBorrowing.item == self.bookcase_item,
-                BookcaseItemBorrowing.delivered != True,
+                BookcaseItemBorrowing.delivered.is_(None),
             )
         ).one_or_none() is not None
 
@@ -94,7 +95,7 @@ class BookcaseItemCli(NumberedCmd):
             select(BookcaseItemBorrowing)
             .where(
               BookcaseItemBorrowing.item == self.bookcase_item,
-              BookcaseItemBorrowing.delivered != True,
+              BookcaseItemBorrowing.delivered.is_(None),
             )
             .order_by(BookcaseItemBorrowing.end_time)
         ).all()
@@ -168,6 +169,7 @@ class BookcaseItemCli(NumberedCmd):
             break
 
         borrowing = borrowings[selection - 1]
+        borrowing.delivered = datetime.now()
         self.sql_session.flush()
         print(f'Successfully delivered the item for {borrowing.username}')
 

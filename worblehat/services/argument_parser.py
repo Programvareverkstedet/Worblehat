@@ -15,6 +15,10 @@ arg_parser = ArgumentParser(
 
 subparsers = arg_parser.add_subparsers(dest='command')
 subparsers.add_parser(
+    'deadline-daemon',
+    help = 'Initialize a single pass of the daemon which sends deadline emails',
+)
+subparsers.add_parser(
     'cli',
     help = 'Start the command line interface',
 )
