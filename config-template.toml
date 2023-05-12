@@ -1,9 +1,6 @@
-# See https://flask.palletsprojects.com/en/2.3.x/config/
-[flask]
-TESTING = true
-DEBUG = true
-FLASK_ENV = 'development'
-SECRET_KEY = 'change-me'
+[logging]
+debug = true
+debug_sql = false
 
 [database]
 # One of (sqlite, postgres)
@@ -16,5 +13,13 @@ path = './worblehat.sqlite'
 host = 'localhost'
 port = 5432
 username = 'worblehat'
-password = 'change-me'
+password = '/var/lib/worblehat/db-password' # path or plain text
 name = 'worblehat'
+
+# See https://flask.palletsprojects.com/en/2.3.x/config/
+[flask]
+TESTING = true
+DEBUG = true
+FLASK_ENV = 'development'
+SECRET_KEY = 'change-me' # path or plain text
+

@@ -13,9 +13,8 @@
         inherit program;
       };
     in {
-      default = self.apps.${system}.dev;
-      dev = app "${self.packages.${system}.worblehat}/bin/dev";
-      cli = app "${self.packages.${system}.worblehat}/bin/cli";
+      default = self.apps.${system}.worblehat;
+      worblehat = app "${self.packages.${system}.worblehat}/bin/worblehat";
     };
 
     packages.${system} = {

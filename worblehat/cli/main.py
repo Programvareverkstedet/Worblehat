@@ -1,19 +1,15 @@
 from textwrap import dedent
 
 from sqlalchemy import (
-   create_engine,
    event,
    select,
 )
-from sqlalchemy.orm import (
-   Session,
-)
-from worblehat.services.bookcase_item import (
+from sqlalchemy.orm import Session
+
+from worblehat.services import (
     create_bookcase_item_from_isbn,
     is_valid_isbn,
 )
-from worblehat.services.config import Config
-from worblehat.services.argument_parser import parse_args
 
 from worblehat.models import *
 
@@ -29,19 +25,10 @@ from .subclis import (
 #       the shelves?
 
 class WorblehatCli(NumberedCmd):
-    sql_session: Session
-    sql_session_dirty: bool = False
-
-    def __init__(self, args: dict[str, any] | None = None):
+    def __init__(self, sql_session: Session):
         super().__init__()
-
-        try:
-            engine = create_engine(Config.db_string(), echo=args.get('verbose_sql', False))
-            self.sql_session = Session(engine)
-        except Exception as err:
-            print('Error: could not connect to database.')
-            print(err)
-            exit(1)
+        self.sql_session = sql_session
+        self.sql_session_dirty = False
 
         @event.listens_for(self.sql_session, 'after_flush')
         def mark_session_as_dirty(*_):
@@ -54,7 +41,23 @@ class WorblehatCli(NumberedCmd):
             self.sql_session_dirty = False
             self.prompt_header = None
 
-        print(f"Debug: Connected to database at '{Config.db_string()}'")
+    @classmethod
+    def run_with_safe_exit_wrapper(cls, sql_session: Session):
+        tool = cls(sql_session)
+        while True:
+            try:
+                tool.cmdloop()
+            except KeyboardInterrupt:
+                if not tool.sql_session_dirty:
+                    exit(0)
+                try:
+                  print()
+                  if prompt_yes_no('Are you sure you want to exit without saving?', default=False):
+                      raise KeyboardInterrupt
+                except KeyboardInterrupt:
+                    if tool.sql_session is not None:
+                        tool.sql_session.rollback()
+                    exit(0)
 
 
     def do_list_bookcases(self, _: str):
@@ -222,27 +225,3 @@ class WorblehatCli(NumberedCmd):
             'doc': 'Exit',
         },
     }
-
-
-def main():
-    args = parse_args()
-    Config.load_configuration(args)
-
-    tool = WorblehatCli(args)
-    while True:
-        try:
-            tool.cmdloop()
-        except KeyboardInterrupt:
-            if not tool.sql_session_dirty:
-                exit(0)
-            try:
-              print()
-              if prompt_yes_no('Are you sure you want to exit without saving?', default=False):
-                  raise KeyboardInterrupt
-            except KeyboardInterrupt:
-                if tool.sql_session is not None:
-                    tool.sql_session.rollback()
-                exit(0)
-
-if __name__ == '__main__':
-    main()

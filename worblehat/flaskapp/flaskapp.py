@@ -13,13 +13,10 @@ from .database import db
 def create_app(args: dict[str, any] | None = None):
     app = Flask(__name__)
 
-    if args is not None:
-        Config.load_configuration(args)
-        print(Config.db_string())
-        app.config.update(Config['flask'])
-        app.config.update(Config._config)
-        app.config['SQLALCHEMY_DATABASE_URI'] = Config.db_string()
-        app.config['SQLALCHEMY_ECHO'] = args.get('verbose_sql')
+    app.config.update(Config['flask'])
+    app.config.update(Config._config)
+    app.config['SQLALCHEMY_DATABASE_URI'] = Config.db_string()
+    app.config['SQLALCHEMY_ECHO'] = Config['logging.debug_sql']
 
     db.init_app(app)
 

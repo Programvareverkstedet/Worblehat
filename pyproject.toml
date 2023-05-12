@@ -22,8 +22,7 @@ werkzeug = "^2.3.3"
 poethepoet = "^0.20.0"
 
 [tool.poetry.scripts]
-cli = "worblehat.cli.main:main"
-dev = "worblehat.flaskapp.wsgi_dev:main"
+worblehat = "worblehat.main:main"
 
 [tool.poe.tasks]
 clean = """

@@ -20,6 +20,14 @@ class Config:
                 raise AttributeError(f'No such attribute: {name}')
         return __config
 
+    @staticmethod
+    def read_password(password_field: str) -> str:
+      if Path(password_field).is_file():
+        with open(password_field, 'r') as f:
+          return f.read()
+      else:
+        return password_field
+
 
     @classmethod
     def _locate_configuration_file(cls) -> Path | None:
@@ -56,7 +64,7 @@ class Config:
             hostname = db_config.get('hostname')
             port = db_config.get('port')
             username = db_config.get('username')
-            password = db_config.get('password')
+            password = cls.read_password(db_config.get('password'))
             database = db_config.get('database')
             return f"psycopg2+postgresql://{username}:{password}@{hostname}:{port}/{database}"
         else:
