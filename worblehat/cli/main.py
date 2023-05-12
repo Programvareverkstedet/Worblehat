@@ -15,7 +15,7 @@ from worblehat.models import *
 
 from .prompt_utils import *
 from .subclis import (
-    AdvancedOptions,
+    AdvancedOptionsCli,
     BookcaseItemCli,
     select_bookcase_shelf,
 )
@@ -165,7 +165,7 @@ class WorblehatCli(NumberedCmd):
 
 
     def do_advanced(self, _: str):
-        AdvancedOptions(self.sql_session).cmdloop()
+        AdvancedOptionsCli(self.sql_session).cmdloop()
 
 
     def do_save(self, _:str):

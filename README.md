@@ -62,6 +62,7 @@ See `worblehat/config.py` for configurable settings.
     - [X] Ability to queue book loans for PVV members
     - [ ] Ability to be notified when books are available
     - [ ] Ability to be notified when deadlines are due
+    - [ ] Ability to print PVV-specific labels for items without a label, or for any other reason needs a new one
     - [ ] Ascii art of monkey
 - [ ] Low priority:
   - [ ] Ability for PVV members to request book loans through the PVV website
@@ -69,3 +70,4 @@ See `worblehat/config.py` for configurable settings.
 - [ ] Discussion
   - [ ] Should this project run in a separate tty-instance on Dibblers interface, or should they share the tty with some kind of switching ability?
   After some discussion with other PVV members, we came up with an idea where we run the programs in separate ttys, and use a set of large mechanical switches connected to a QMK-flashed microcontroller to switch between them.
+  - [ ] Workaround for not being able to represent items with same ISBN and different owner: if you are absolutely adamant about placing your item at PVV while still owning it, even though PVV already owns a copy of this item, please print out a new label with a "PVV-ISBN" for it

@@ -53,6 +53,7 @@ class BookcaseItemCli(NumberedCmd):
         # TODO: Remove any old authors
         self.bookcase_item.authors = item.authors
         self.bookcase_item.language = item.language
+        self.sql_session.flush()
 
 
     def do_edit(self, arg: str):
@@ -134,7 +135,8 @@ class BookcaseItemCli(NumberedCmd):
 
         borrowing_item = BookcaseItemBorrowing(username, self.bookcase_item)
         self.sql_session.add(borrowing_item)
-        print(f'Successfully delivered the item. Please deliver it back by {format_date(borrowing_item.end_time)}')
+        self.sql_session.flush()
+        print(f'Successfully borrowed the item. Please deliver it back by {format_date(borrowing_item.end_time)}')
 
     def do_deliver(self, _: str):
         borrowings = self.sql_session.scalars(
@@ -166,7 +168,7 @@ class BookcaseItemCli(NumberedCmd):
             break
 
         borrowing = borrowings[selection - 1]
-        borrowing.delivered = True
+        self.sql_session.flush()
         print(f'Successfully delivered the item for {borrowing.username}')
 
 
@@ -224,6 +226,7 @@ class EditBookcaseCli(NumberedCmd):
 
             break
         self.bookcase_item.name = name
+        self.sql_session.flush()
 
 
     def do_isbn(self, _: str):
@@ -250,6 +253,7 @@ class EditBookcaseCli(NumberedCmd):
 
         if prompt_yes_no('Update data from online databases?'):
             self.parent.do_update_data('')
+            self.sql_session.flush()
 
 
     def do_language(self, _: str):
@@ -259,6 +263,7 @@ class EditBookcaseCli(NumberedCmd):
         )
 
         self.bookcase_item.language = language_selector.result
+        self.sql_session.flush()
 
 
     def do_media_type(self, _: str):
@@ -268,6 +273,7 @@ class EditBookcaseCli(NumberedCmd):
         )
 
         self.bookcase_item.media_type = media_type_selector.result
+        self.sql_session.flush()
 
 
     def do_amount(self, _: str):
@@ -284,6 +290,7 @@ class EditBookcaseCli(NumberedCmd):
 
             break
         self.bookcase_item.amount = new_amount
+        self.sql_session.flush()
 
 
     def do_shelf(self, _: str):
@@ -297,6 +304,7 @@ class EditBookcaseCli(NumberedCmd):
         shelf = select_bookcase_shelf(bookcase, self.sql_session)
 
         self.bookcase_item.shelf = shelf
+        self.sql_session.flush()
 
 
     def do_done(self, _: str):

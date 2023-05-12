@@ -9,7 +9,7 @@ from worblehat.cli.prompt_utils import (
 )
 from worblehat.models import Bookcase, BookcaseShelf
 
-class AdvancedOptions(NumberedCmd):
+class AdvancedOptionsCli(NumberedCmd):
     def __init__(self, sql_session: Session):
         super().__init__()
         self.sql_session = sql_session

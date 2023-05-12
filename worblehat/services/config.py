@@ -5,6 +5,17 @@ from pprint import pformat
 
 
 class Config:
+    """
+    This class is a singleton which holds the configuration for the
+    application. It is initialized by calling `Config.load_configuration()`
+    with a dictionary of arguments. The arguments are usually the result
+    of calling `vars(arg_parser.parse_args())` where `arg_parser` i    s the
+    argument parser from `worblehat/services/argument_parser.py`.
+
+    The class also provides some utility functions for accessing several
+    kinds of values that depend on the configuration.
+    """
+
     _config = None
     _expected_config_file_locations = [
         Path('./config.toml'),

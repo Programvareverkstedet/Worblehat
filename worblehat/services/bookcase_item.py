@@ -16,11 +16,13 @@ def is_valid_pvv_isbn(isbn: str) -> bool:
       return False
   return len(isbn) == 8
 
+
 def is_valid_isbn(isbn: str) -> bool:
     return any([
         isbnlib.is_isbn10(isbn),
         isbnlib.is_isbn13(isbn),
     ])
+
 
 def create_bookcase_item_from_isbn(isbn: str, sql_session: Session) -> BookcaseItem | None:
     metadata = isbnlib.meta(isbn, 'openl')
