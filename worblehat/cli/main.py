@@ -18,6 +18,7 @@ from .subclis import (
     AdvancedOptionsCli,
     BookcaseItemCli,
     select_bookcase_shelf,
+    SearchCli,
 )
 
 # TODO: Category seems to have been forgotten. Maybe relevant interactivity should be added?
@@ -161,7 +162,13 @@ class WorblehatCli(NumberedCmd):
 
 
     def do_search(self, _: str):
-        print('TODO: implement search')
+        search_cli = SearchCli(self.sql_session)
+        search_cli.cmdloop()
+        if search_cli.result is not None:
+            BookcaseItemCli(
+                sql_session = self.sql_session,
+                bookcase_item = search_cli.result,
+            ).cmdloop()
 
 
     def do_advanced(self, _: str):

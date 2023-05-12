@@ -58,13 +58,12 @@ Run `poetry run worblehat --help` for more info
 - [X] Ability to create and update bookcases
 - [X] Ability to create and update bookcase shelfs
 - [X] Ability to create and update bookcase items
-- [X] Ability to borrow an item
+- [X] Ability to borrow and deliver items
+- [ ] Ability to borrow and deliver multiple items at a time
 - [X] Ability to enter the queue for borrowing an item
 - [ ] Ability to extend a borrowing, only if no one is behind you in the queue
-- [ ] Ability to borrow multiple items at a time
-- [ ] Ability to deliver multiple items at a time
 - [ ] Ability to list borrowed items which are overdue
-- [ ] Ability to search for items
+- [~] Ability to search for items
 - [ ] Ability to print PVV-specific labels for items missing a label, or which for any other reason needs a custom one
 - [ ] Ascii art of monkey with fingers in eyes
 

@@ -129,16 +129,16 @@ class NumberedCmd(Cmd):
 
 
     prompt_header: str | None = None
+    funcs: dict[int, dict[str, str | Callable[[Any, str], bool | None]]]
 
 
     def __init__(self):
         super().__init__()
 
 
-    @classmethod
-    def _generate_usage_list(cls) -> str:
+    def _generate_usage_list(self) -> str:
         result = ''
-        for i, func in cls.funcs.items():
+        for i, func in self.funcs.items():
             if i == 0:
                 i = '*'
             result += f'{i}) {func["doc"]}\n'
@@ -186,3 +186,26 @@ class NumberedCmd(Cmd):
             result += f'[{self.lastcmd}]> '
 
         return result
+
+
+class NumberedItemSelector(NumberedCmd):
+    def __init__(
+        self,
+        items: list[Any],
+        stringify: Callable[[Any], str] = lambda x: str(x),
+    ):
+        super().__init__()
+        self.items = items
+        self.stringify = stringify
+        self.funcs = {
+            i: {
+                'f': self._select_item,
+                'doc': self.stringify(item),
+            }
+            for i, item in enumerate(items, start=1)
+        }
+
+
+    def _select_item(self, *a):
+        self.result = self.items[int(self.lastcmd)-1]
+        return True
